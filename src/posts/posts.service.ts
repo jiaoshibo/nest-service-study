@@ -23,7 +23,7 @@ export class PostsService {
   async create(post:Partial<PostsEntity>){
     const {title} = post;
     if(!title){
-      throw new HttpException('缺少文章标',401)
+      throw new HttpException('缺少文章标题',401)
     }
     const doc = await this.postsRepository.findOne({where:{title}})
     if(doc){

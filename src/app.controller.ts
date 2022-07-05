@@ -1,36 +1,50 @@
-import { Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Ip, Param, Post, Query} from '@nestjs/common';
 import { AppService } from './app.service';
 
+import { PostBody,ExamTrendBody } from './app.dto';
+import { ApiOperation, ApiTags, ApiProperty } from '@nestjs/swagger';
+
+
+
+
 // 主路径 /app
+@ApiTags('ApiTags')
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
-
+  @ApiOperation({summary:'hello world'})
   @Get()
-  getHello(): string {
+  getHello(@Query('id') id): string {
+    console.log(`查询字符串：id=${id}`);
+    
     return this.appService.getHello();
   }
 
-  // 匹配 http://localhost:port/app/get-list
-  @Get("get-list")
-  getList(){
-    return 'app-get-list'
-  }
-  @Post("post-list")
-  postList(){
-    return 'app-post-list'
-  }
-
-
-  // 通配符 ?+* http://localhost:port/user_xxx
-  @Get("user_*")
-  getUser(){
-    return 'getUser'
+  // /postParam/xx
+  @ApiOperation({summary:'postParam'})
+  @Post('postParam/:name')
+  @HttpCode(200)
+  paramData(@Param('name') name:string){
+    console.log(name);
+    return {
+      type:'post-query',
+      data:name
+    }
   }
 
-  // http://localhost:port/putName/xxx
-  @Put("putName/:id")
-  getUserName(){
-    return 'put user name'
+  @ApiOperation({summary:'postBody'})
+  @Post('postBody')
+  bodyData(@Body() body:PostBody, @Ip() ip:string){
+    console.log(body,ip);
+    return {
+      type:'post-body',
+      data:body
+    }
+  }
+
+  @HttpCode(200)
+  @Post('examTrendChartViewDetails')
+  async examTrendChartViewDetails(@Body() body:ExamTrendBody){
+    return this.appService.getExamTrendChartViewDetails(body)
   }
 }
