@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PostBody,ExamTrendBody } from './app.dto';
+import { ExamTrendBody } from './app.dto';
 import { HttpService } from '@nestjs/axios';
 import * as qs from 'qs';
 import {map} from 'rxjs';

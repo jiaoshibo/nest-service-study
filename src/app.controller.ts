@@ -2,11 +2,7 @@ import { Body, Controller, Get, HttpCode, Ip, Param, Post, Query} from '@nestjs/
 import { AppService } from './app.service';
 
 import { PostBody,ExamTrendBody } from './app.dto';
-import { ApiOperation, ApiTags, ApiProperty } from '@nestjs/swagger';
-import { response } from 'express';
-
-
-
+import { ApiOperation, ApiTags} from '@nestjs/swagger';
 
 // 主路径 /app
 @ApiTags('ApiTags')
