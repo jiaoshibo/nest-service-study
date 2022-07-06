@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { PostBody,ExamTrendBody } from './app.dto';
 import { HttpService } from '@nestjs/axios';
-import {stringify} from 'qs';
+import * as qs from 'qs';
+import {map} from 'rxjs';
 @Injectable()
 export class AppService {
   constructor(private readonly httpService:HttpService){}
@@ -9,6 +10,7 @@ export class AppService {
     return 'Hello World!';
   }
   getExamTrendChartViewDetails(data:ExamTrendBody){
-    return this.httpService.post('http://172.16.10.13:1234/dataStatistics/ExamTrendChartViewDetails',stringify(data))
+    // let _data = Qs.stringify(data);
+    return this.httpService.post('http://172.16.10.13:7006/dataStatistics/ExamTrendChartViewDetails',qs.stringify(data)).pipe(map(res=>res.data))
   }
 }

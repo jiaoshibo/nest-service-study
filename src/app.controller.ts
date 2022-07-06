@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 
 import { PostBody,ExamTrendBody } from './app.dto';
 import { ApiOperation, ApiTags, ApiProperty } from '@nestjs/swagger';
+import { response } from 'express';
 
 
 
@@ -42,9 +43,17 @@ export class AppController {
     }
   }
 
+
+  /**
+   * 使用 http 请求调用其他后台
+   * @param body 
+   * @returns 
+   */
   @HttpCode(200)
   @Post('examTrendChartViewDetails')
   async examTrendChartViewDetails(@Body() body:ExamTrendBody){
-    return this.appService.getExamTrendChartViewDetails(body)
+    let res = await this.appService.getExamTrendChartViewDetails(body).toPromise()
+    console.log(new Date(),`---${JSON.stringify(res)}`)
+    return res
   }
 }
